@@ -1,0 +1,54 @@
+#include "shell.h"
+
+#define NCHAR 64
+
+/**
+ * _getline - read one line until EOF
+ * @fd: input
+ * @buffer: pointer to output in memory
+ *
+ * Return: string
+ */
+char *_getline(int fd, char **buffer)
+{
+	char ch;
+	char *tmp;
+	size_t buflen = 0, nchar = NCHAR;
+
+	*buffer = malloc(nchar);
+	if (!*buffer)
+	{
+		perror("Virtual memory exhausted!");
+		return (NULL);
+	}
+
+	while (read(fd, &ch, sizeof(ch)) > 0)
+	{
+		if (ch == '\n' || ch == EOF)
+			break;
+
+		(*buffer)[buflen++] = ch;
+
+		if (buflen + 1 >= nchar)
+		{
+			tmp = realloc(*buffer, nchar * 2);
+			if (!tmp)
+			{
+				perror("Realloc failed!");
+				(*buffer)[buflen] = 0;
+				return (*buffer);
+			}
+			*buffer = tmp;
+			nchar *= 2;
+		}
+	}
+	(*buffer)[buflen] = 0;
+
+	if (buflen == 0 && ch == EOF)
+	{
+		free(*buffer);
+		*buffer = NULL;
+	}
+
+	return (*buffer);
+}
