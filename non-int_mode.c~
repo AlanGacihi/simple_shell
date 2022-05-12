@@ -1,0 +1,16 @@
+#include "shell.h"
+#include <stdlib.h>
+
+/**
+ * non-int_mode - checks and runs commands from stdin
+ *
+ */
+void __attribute__((constructor)) non_int_mode(void)
+{
+	/*
+	if (stdin)
+	{
+		read_and_exec(0, 1);
+		exit(EXIT_SUCCESS);
+		}*/
+}

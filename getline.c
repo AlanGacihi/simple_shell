@@ -22,11 +22,8 @@ char *_getline(int fd, char **buffer)
 		return (NULL);
 	}
 
-	while (read(fd, &ch, sizeof(ch)) > 0)
+	while (read(fd, &ch, sizeof(ch)) > 0 && ch != '\n')
 	{
-		if (ch == '\n' || ch == EOF)
-			break;
-
 		(*buffer)[buflen++] = ch;
 
 		if (buflen + 1 >= nchar)
@@ -44,7 +41,7 @@ char *_getline(int fd, char **buffer)
 	}
 	(*buffer)[buflen] = 0;
 
-	if (buflen == 0 && ch == EOF)
+	if (buflen == 0)
 	{
 		free(*buffer);
 		*buffer = NULL;
