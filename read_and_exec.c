@@ -8,6 +8,7 @@
 void read_and_exec(int fd, int mode)
 {
 	char *line;
+	char *cmd;
 	char **argv;
 
 	if (mode == 0)
@@ -15,7 +16,19 @@ void read_and_exec(int fd, int mode)
 		if(_getline(0, &line))
 		{
 			argv = split(line);
-			exec(argv);
+
+			cmd = which(argv[0]);
+			if (cmd)
+			{
+				argv[0] = cmd;
+				exec(argv);
+			}
+			else
+			{
+				printf("Command not found\n");
+			}
+
+			free(cmd);
 			free(line);
 			free(argv);
 		}
@@ -29,7 +42,19 @@ void read_and_exec(int fd, int mode)
 		while(_getline(fd, &line))
 		{
 			argv = split(line);
-			exec(argv);
+
+			cmd = which(argv[0]);
+			if (cmd)
+			{
+				argv[0] = cmd;
+				exec(argv);
+			}
+			else
+			{
+				printf("Command not found\n");
+			}
+			
+			free(cmd);
 			free(line);
 			line = NULL;
 			free(argv);

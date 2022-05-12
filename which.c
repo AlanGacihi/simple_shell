@@ -32,15 +32,16 @@ char *which(char *file)
 		path = path_sep();
 		while(path[i])
 		{
-		        //real_path = path[i];
-			printf("%s\n", path[i]);
-			/*if (_assert(real_path))
+		        real_path = strcat(path[i], file);
+			if (_assert(real_path))
 			{
+				while(path[++i])
+					free(path[i]);
 				free(path);
 				return (real_path);
-				}*/
-			i++;
-			//real_path = NULL;
+			}
+			free(path[i++]);
+			real_path = NULL;
 		}
 		free(path);
 		return (NULL);
@@ -99,8 +100,9 @@ char **path_sep(void)
 
 	while ((dir = strsep(&path, ":")) != NULL)
 	{
-		snprintf(cp, sizeof(cp), "%s%s", dir, "/");
-		dirs[j++] = cp;
+		strcpy(cp, dir);
+		strcat(cp, "/");
+		dirs[j++] = strdup(cp);
 	}
 	dirs[j] = NULL;
 
