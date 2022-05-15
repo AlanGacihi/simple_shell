@@ -1,20 +1,24 @@
 #ifndef SHELL_H
 #define SHELL_H
 
-#define PATHSIZE 64
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
+/**
+ * struct builtin_s - Struct builtin
+ *
+ * @name: Function name
+ * @f: The function associated
+ */
+typedef struct builtin_s
+{
+	char *name;
+	void (*f)(__attribute__((unused)) char **argv);
+} builtin_t;
 
 char *_getline(int fd, char **buffer);
 char **split(char *str);
-void exec(char **av);
-void read_and_exec(int fd, int mode);
+void readline(int fd, int mode, char *envp[]);
 char *which(char *file);
-int _assert(char *file);
+void cd(char **argv);
+void exit_shell(char **argv);
+int exec(char *argv[], char *envp[]);
 
 #endif /* SHELL_H */

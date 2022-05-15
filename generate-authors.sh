@@ -8,7 +8,7 @@ cd "$(dirname "$(readlink -f "$BASH_SOURCE")")/.."
 {
     cat <<EOF
 - 'EOH'
-	# This file lists all individuals having contributed content to the repository.
+	# This file lists individuals having contributed content to the repo.
 	  # For how it is generated, see `hack/generate-authors.sh`.
 	  EOH
 	  echo

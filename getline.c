@@ -1,4 +1,8 @@
 #include "shell.h"
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define NCHAR 64
 
@@ -18,7 +22,7 @@ char *_getline(int fd, char **buffer)
 	*buffer = malloc(nchar);
 	if (!*buffer)
 	{
-		perror("Virtual memory exhausted!");
+		perror("Error:");
 		return (NULL);
 	}
 
@@ -31,7 +35,7 @@ char *_getline(int fd, char **buffer)
 			tmp = realloc(*buffer, nchar * 2);
 			if (!tmp)
 			{
-				perror("Realloc failed!");
+				perror("Error:");
 				(*buffer)[buflen] = 0;
 				return (*buffer);
 			}
