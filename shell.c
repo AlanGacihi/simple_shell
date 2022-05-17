@@ -10,22 +10,21 @@
  * @envp: environment
  * Return: Always 0.
  */
-int main(__attribute__((unused)) int ac, __attribute__((unused)) char *argv[],
-	 char *envp[])
+int main(void)
 {
 	if (isatty(STDIN_FILENO))
 	{
 		while (1)
 		{
-			printf("> ");
+			shellPrompt();
 			fflush(stdout);
 
-			readline(0, 0, envp);
+			readline(0, 0);
 		}
 	}
 	else
 	{
-		readline(0, 1, envp);
+		readline(0, 1);
 	}
 
 	return (0);

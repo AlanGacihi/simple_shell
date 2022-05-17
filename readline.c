@@ -6,9 +6,8 @@
  * readline - reads and executes commands
  * @fd: file descriptor
  * @mode: 0 for interactive mode and 1 for non-interactive mode
- * @envp: environment
  */
-void readline(int fd, int mode, char *envp[])
+void readline(int fd, int mode)
 {
 	char *line;
 	char **argv;
@@ -18,7 +17,7 @@ void readline(int fd, int mode, char *envp[])
 		if (_getline(0, &line))
 		{
 			argv = split(line);
-			exec(argv, envp);
+			exec(argv);
 			free(line);
 			free(argv);
 		}
@@ -32,7 +31,7 @@ void readline(int fd, int mode, char *envp[])
 		while (_getline(fd, &line))
 		{
 			argv = split(line);
-			exec(argv, envp);
+			exec(argv);
 			free(argv);
 		}
 		free(line);

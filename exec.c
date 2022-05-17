@@ -14,7 +14,7 @@ int check_builtins(char **argv);
  *
  * Return: 0 if success, -1 otherwise
  */
-int exec(char *argv[], char *envp[])
+int exec(char *argv[])
 {
 	int status;
 	char *cmd;
@@ -26,7 +26,7 @@ int exec(char *argv[], char *envp[])
 	cmd = which(argv[0]);
 	if (cmd == NULL)
 	{
-		fprintf(stderr, "Error: %s: command not found\n", argv[0]);
+		fprintf(stderr, "bash: %s: command not found\n", argv[0]);
 		free(cmd);
 		return (-1);
 	}
@@ -39,7 +39,7 @@ int exec(char *argv[], char *envp[])
 	}
 	if (child_pid == 0)
 	{
-		if (execve(cmd, argv, envp) == -1)
+		if (execve(cmd, argv, environ) == -1)
 		{
 			perror("Error:");
 			free(cmd);
@@ -61,6 +61,7 @@ int exec(char *argv[], char *envp[])
 /**
  * check_builtins - checks if a command is builtin
  * @argv: list of arguments
+ * @envp: environment
  *
  * Return: 0 if successful, -1 otherwise
  *
@@ -71,7 +72,10 @@ int check_builtins(char **argv)
 
 	builtin_t builtins[] = {
 		{"cd", cd},
-		{"exit", exit_shell}
+		{"exit", exit_shell},
+		{"env", env},
+		{"setenv", _setenv},
+		{"unsetenv", _unsetenv}
 	};
 
 	j = sizeof(builtins) / sizeof(builtin_t);
@@ -85,4 +89,15 @@ int check_builtins(char **argv)
 	}
 
 	return (-1);
+}
+
+/**
+ * shellPrompt - Displays the prompt for the shell
+ *
+ */
+void shellPrompt(void)
+{
+	char pwd[PATHSIZE];
+
+	printf("cisfun:%s# ", getcwd(pwd, PATHSIZE));
 }
