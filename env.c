@@ -69,7 +69,8 @@ int unset_var(char *variable)
 
 	if (!environ[i])
 	{
-		fprintf(stderr, "bash: unsetenv: %s: Variable not found\n", variable);
+		fprintf(stderr, "bash: unsetenv: %s: Variable not found\n",
+			variable);
 		return (1);
 	}
 	else

@@ -5,9 +5,7 @@
 
 /**
  * main - Super simple shell
- * @ac: number of arguments
- * @argv: list of arguments
- * @envp: environment
+ *
  * Return: Always 0.
  */
 int main(void)

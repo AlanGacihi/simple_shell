@@ -10,7 +10,6 @@ int check_builtins(char **argv);
 /**
  * exec - creates a process and executes a command
  * @argv: list of commands and arguments
- * @envp: environment
  *
  * Return: 0 if success, -1 otherwise
  */
@@ -61,7 +60,7 @@ int exec(char *argv[])
 /**
  * check_builtins - checks if a command is builtin
  * @argv: list of arguments
- * @envp: environment
+ *
  *
  * Return: 0 if successful, -1 otherwise
  *

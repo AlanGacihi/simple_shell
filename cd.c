@@ -13,7 +13,6 @@ int argc(char **argv);
 /**
  * cd - change the working directory
  * @argv: list of arguments
- * @envp: environment
  *
  * Return: 0 if successful, -1 otherwise
  */
@@ -108,6 +107,8 @@ int cd_home(void)
 /**
  * cd_dir - changes wd to a dir
  * @dir: target directory
+ *
+ * Return: 0 if successful, -1 otherwise
  */
 int cd_dir(char *dir)
 {
@@ -134,6 +135,7 @@ int cd_dir(char *dir)
  * argc - counts number of arguments in argv
  * @argv: list of arguments
  *
+ * Return: 0 if successful, -1 otherwise
  */
 int argc(char **argv)
 {

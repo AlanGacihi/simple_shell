@@ -72,14 +72,14 @@ int env(__attribute__((unused)) char **argv)
 	while (environ[i])
 		printf("%s\n", environ[i++]);
 
-	return (0);;
+	return (0);
 }
 
 /**
- * setenv - initialize a new environment variable, or modify an existing one
- * @argv - list of arguments
+ * _setenv - initialize a new environment variable, or modify an existing one
+ * @argv: list of arguments
  *
- * Return : 0 if successful, -1 otherwise
+ * Return: 0 if successful, -1 otherwise
  */
 int _setenv(char **argv)
 {
@@ -102,7 +102,7 @@ int _setenv(char **argv)
  * _unsetenv - deletes a variable from the environment
  * @argv: list of arguments
  *
- * Return 0 if successful, -1 otherwise
+ * Return: 0 if successful, -1 otherwise
  */
 int _unsetenv(char **argv)
 {
