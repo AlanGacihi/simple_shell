@@ -1,55 +1,30 @@
 #include "shell.h"
-#include <fcntl.h>
-#include <unistd.h>
 #include <stdio.h>
-#include <stdlib.h>
-
-#define NCHAR 64
+#include <unistd.h>
 
 /**
- * _getline - read one line until EOF
- * @fd: input
- * @buffer: pointer to output in memory
- *
- * Return: string
+ * _getline - function that reads input from stdin
+ * @command: address of pointer to buffer
+ * @size: count of chars to be read as a line
+ * @fd: file descriptor for read function
+ * Return: count of chars read including newline/ excluding terminating null
  */
-char *_getline(int fd, char **buffer)
+
+short _getline(char **command, int *size, int fd)
 {
-	char ch;
-	char *tmp;
-	size_t buflen = 0, nchar = NCHAR;
+	short read_bytes = 0;
 
-	*buffer = malloc(nchar);
-	if (!*buffer)
+	read_bytes = read(fd, *command, *size);
+
+	if (read_bytes == 0)
+		return (-1);
+	else if (read_bytes == -1)
 	{
-		perror("Error:");
-		return (NULL);
+		free(*command);
+		perror("Could not read input");
+		exit(-1);
 	}
 
-	while (read(fd, &ch, sizeof(ch)) > 0 && ch != '\n')
-	{
-		(*buffer)[buflen++] = ch;
-
-		if (buflen + 1 >= nchar)
-		{
-			tmp = realloc(*buffer, nchar * 2);
-			if (!tmp)
-			{
-				perror("Error:");
-				(*buffer)[buflen] = 0;
-				return (*buffer);
-			}
-			*buffer = tmp;
-			nchar *= 2;
-		}
-	}
-	(*buffer)[buflen] = 0;
-
-	if (buflen == 0)
-	{
-		free(*buffer);
-		*buffer = NULL;
-	}
-
-	return (*buffer);
+	(*command)[read_bytes] = '\0';
+	return (read_bytes);
 }
