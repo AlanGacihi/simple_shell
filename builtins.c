@@ -1,130 +1,130 @@
 #include "shell.h"
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <ctype.h>
 
-int argc(char **argv);
-int isNumber(char *str);
-
+#define SETOWD(V) (V = _strdup(_getenv("OLDPWD")))
 /**
- * exit_shell - exits the shell
- * @argv: list of arguments
+ * change_dir - changes directory
+ * @data: a pointer to the data structure
  *
- * Return: 0 if sucessful, -1 otherwise
+ * Return: (Success) 0 is returned
+ * ------- (Fail) negative number will returned
  */
-int exit_shell(char **argv)
+int change_dir(sh_t *data)
 {
-	if (argc(argv) > 2)
+	char *home;
+
+	home = _getenv("HOME");
+	if (data->args[1] == NULL)
 	{
-		fprintf(stderr, "Usage: exit [status]\n");
-		return (-1);
+		SETOWD(data->oldpwd);
+		if (chdir(home) < 0)
+			return (FAIL);
+		return (SUCCESS);
 	}
-	else if (argv[1] == NULL)
+	if (_strcmp(data->args[1], "-") == 0)
 	{
-		exit(EXIT_SUCCESS);
-		return (0);
-	}
-	else if (isNumber(argv[1]) == 0)
-	{
-		exit(atoi(argv[1]));
-		return (0);
+		if (data->oldpwd == 0)
+		{
+			SETOWD(data->oldpwd);
+			if (chdir(home) < 0)
+				return (FAIL);
+		}
+		else
+		{
+			SETOWD(data->oldpwd);
+			if (chdir(data->oldpwd) < 0)
+				return (FAIL);
+		}
 	}
 	else
 	{
-		fprintf(stderr, "Usage: exit [status]\n");
-		return (-1);
+		SETOWD(data->oldpwd);
+		if (chdir(data->args[1]) < 0)
+			return (FAIL);
 	}
-
-	return (-1);
+	return (SUCCESS);
 }
-
+#undef GETCWD
 /**
- * isNumber - checks if a string is a number
- * @str: input string
+ * abort_prg - exit the program
+ * @data: a pointer to the data structure
  *
- * Return: 0 if true, -1 otherwise
+ * Return: (Success) 0 is returned
+ * ------- (Fail) negative number will returned
  */
-int isNumber(char *str)
+int abort_prg(sh_t *data __attribute__((unused)))
 {
-	int i;
+	int code, i = 0;
 
-	for (i = 0; str[i] != '\0'; i++)
+	if (data->args[1] == NULL)
 	{
-		if (!(isdigit(str[i])))
-			return (-1);
+		free_data(data);
+		exit(errno);
 	}
-	return (0);
+	while (data->args[1][i])
+	{
+		if (_isalpha(data->args[1][i++]) < 0)
+		{
+			data->error_msg = _strdup("Illegal number\n");
+			return (FAIL);
+		}
+	}
+	code = _atoi(data->args[1]);
+	free_data(data);
+	exit(code);
 }
-
 /**
- * env - prints the environment
- * @argv: list of arguments
+ * display_help - display the help menu
+ * @data: a pointer to the data structure
  *
- * Return: 0 Always
+ * Return: (Success) 0 is returned
+ * ------- (Fail) negative number will returned
  */
-int env(__attribute__((unused)) char **argv)
+int display_help(sh_t *data)
 {
+	int fd, fw, rd = 1;
+	char c;
+
+	fd = open(data->args[1], O_RDONLY);
+	if (fd < 0)
+	{
+		data->error_msg = _strdup("no help topics match\n");
+		return (FAIL);
+	}
+	while (rd > 0)
+	{
+		rd = read(fd, &c, 1);
+		fw = write(STDOUT_FILENO, &c, rd);
+		if (fw < 0)
+		{
+			data->error_msg = _strdup("cannot write: permission denied\n");
+			return (FAIL);
+		}
+	}
+	PRINT("\n");
+	return (SUCCESS);
+}
+/**
+ * handle_builtin - handle and manage the builtins cmd
+ * @data: a pointer to the data structure
+ *
+ * Return: (Success) 0 is returned
+ * ------- (Fail) negative number will returned
+ */
+int handle_builtin(sh_t *data)
+{
+	blt_t blt[] = {
+		{"exit", abort_prg},
+		{"cd", change_dir},
+		{"help", display_help},
+		{NULL, NULL}
+	};
 	int i = 0;
 
-	while (environ[i])
-		printf("%s\n", environ[i++]);
-
-	return (0);
-}
-
-/**
- * _setenv - initialize a new environment variable, or modify an existing one
- * @argv: list of arguments
- *
- * Return: 0 if successful, -1 otherwise
- */
-int _setenv(char **argv)
-{
-	if (argc(argv) != 3 || strchr(argv[1], '=') != NULL)
+	while ((blt + i)->cmd)
 	{
-		fprintf(stderr, "Usage: setenv VARIABLE VALUE\n");
-		return (-1);
+		if (_strcmp(data->args[0], (blt + i)->cmd) == 0)
+			return ((blt + i)->f(data));
+		i++;
 	}
-
-	if (set_var(argv[1], argv[2]) != 0)
-	{
-		perror("Error");
-		return (-1);
-	}
-
-	return (0);
-}
-
-/**
- * _unsetenv - deletes a variable from the environment
- * @argv: list of arguments
- *
- * Return: 0 if successful, -1 otherwise
- */
-int _unsetenv(char **argv)
-{
-	int unset;
-
-	if (argc(argv) != 2 || strchr(argv[1], '=') != NULL)
-	{
-		fprintf(stderr, "Usage: unsetenv VARIABLE\n");
-		return (-1);
-	}
-
-	unset = unset_var(argv[1]);
-
-	if (unset == -1)
-	{
-		perror("Error:");
-		return (-1);
-	}
-	else if (unset == 1)
-	{
-		return (-1);
-	}
-
-	return (0);
+	return (FAIL);
 }
