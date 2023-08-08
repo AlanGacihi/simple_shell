@@ -30,7 +30,7 @@ int cd(char **args)
  * @args: An array of arguments.
  *
  */
-void my_exit(char **args)
+int my_exit(char **args)
 {
 	int status;
 
@@ -47,4 +47,35 @@ void my_exit(char **args)
 		status = 0;
 	}
 	exit(status);
+
+	return (1);
+}
+
+/**
+ * help - Know what to do.
+ * 
+ */
+int help()
+{
+	printf("SIMPLE SHELL\n");
+	printf("Type program names and arguments, and hit enter.\n");
+
+	return (1);
+}
+
+/**
+ * env - Print the current environment.
+ * @env: Program environment.
+ *
+ * Return: Always 1 to continue the shell loop.
+ */
+int env(char **env) {
+	int i;
+
+	for (i = 0; env[i] != NULL; i++)
+	{
+		printf("%s\n", env[i]);
+	}
+
+	return (1);
 }

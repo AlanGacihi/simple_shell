@@ -23,17 +23,19 @@ int parse(char **args, char **env)
 	}
 	else if (strcmp(args[0], "exit") == 0)
 	{
-		return (0);
+		return (my_exit(args));
 	}
 	else if (strcmp(args[0], "help") == 0)
 	{
-		printf("SIMPLE SHELL\n");
-		printf("Type program names and arguments, and hit enter.\n");
-		return (1);
+		return (help());
 	}
 	else if (strcmp(args[0], "cd") == 0)
 	{
 		return (cd(args));
+	}
+	else if (strcmp(args[0], "env") == 0)
+	{
+		return (env(env));
 	}
 
 	return (execute(args, env));

@@ -11,6 +11,8 @@ char readchar(int);
 int execute(char **, char **);
 int parse(char **, char **);
 int cd(char **);
-void my_exit(char **args);
+int my_exit(char **);
+int env(char **);
+int help();
 
 #endif /* SHELL_H */
