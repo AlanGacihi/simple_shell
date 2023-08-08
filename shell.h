@@ -13,6 +13,6 @@ int parse(char **, char **);
 int cd(char **);
 int my_exit(char **);
 int print_env(char **);
-int help();
+int help(void);
 
 #endif /* SHELL_H */

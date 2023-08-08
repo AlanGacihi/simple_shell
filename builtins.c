@@ -50,10 +50,10 @@ int my_exit(char **args)
 
 /**
  * help - Know what to do.
- * 
+ *
  * Return: Always 1.
  */
-int help()
+int help(void)
 {
 	printf("SIMPLE SHELL\n");
 	printf("Type program names and arguments, and hit enter.\n");
@@ -67,7 +67,8 @@ int help()
  *
  * Return: Always 1.
  */
-int print_env(char **env) {
+int print_env(char **env)
+{
 	int i;
 
 	for (i = 0; env[i] != NULL; i++)
