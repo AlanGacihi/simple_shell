@@ -40,7 +40,7 @@ void loop(char **env)
 				free(line);
 				free(args);
 				printf("?: %d\n", prev_status);
-				exit(prev_status);
+				_exit(prev_status);
 			}
 		}
 		status = parse(args, env);
