@@ -28,12 +28,7 @@ void loop(char **env)
 		free(args);
 
 		if (status) {
-			if (status == 1) {
-				exit(EXIT_FAILURE);
-			}
-			else {
-				exit(status);
-			}
+			exit(status);
 		}
 	} while (eof != EOF);
 }

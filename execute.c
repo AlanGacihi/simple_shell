@@ -83,7 +83,7 @@ int execute(char **args, char **env)
 	}
 
 	free(path);
-	return (0);
+	return (status);
 }
 
 /**
