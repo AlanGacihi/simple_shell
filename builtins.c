@@ -62,7 +62,7 @@ int help(void)
 }
 
 /**
- * env - Print the current environment.
+ * print_env - Print the current environment.
  * @env: Program environment.
  *
  * Return: Always 1.
