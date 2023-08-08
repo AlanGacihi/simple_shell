@@ -39,6 +39,7 @@ void loop(char **env)
 			{
 				free(line);
 				free(args);
+				printf("?: %d\n", prev_status);
 				exit(prev_status);
 			}
 		}
