@@ -19,28 +19,34 @@ void loop(char **env)
 
 	eof = 'a';
 
+	prev_status = 0;
 	do {
 		printf("> ");
 		fflush(stdout);
 		line = read_line(STDIN_FILENO, &eof);
 		args = split_line(line);
-		status = parse(args, env);
-
-		free(line);
-		free(args);
-		prev_status = status;
-
+		
 		if (strcmp(args[0], "exit") == 0)
 		{
+			status = atoi(args[1]);
 			if (args[1] != NULL)
 			{
-				exit(atoi(args[1]));
+				free(line);
+				free(args);
+				exit(status);
 			}
 			else
 			{
+				free(line);
+				free(args);
 				exit(prev_status);
 			}
 		}
+		status = parse(args, env);
+		prev_status = status;
+
+		free(line);
+		free(args);
 	} while (eof != EOF);
 }
 
