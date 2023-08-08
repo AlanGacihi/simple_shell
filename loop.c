@@ -28,9 +28,9 @@ void loop(char **env)
 		
 		if (strcmp(args[0], "exit") == 0)
 		{
-			status = atoi(args[1]);
 			if (args[1] != NULL)
 			{
+				status = atoi(args[1]);
 				free(line);
 				free(args);
 				exit(status);
