@@ -83,7 +83,6 @@ int execute(char **args, char **env)
 	}
 
 	free(path);
-	printf("?: %d", status);
 	return (status);
 }
 

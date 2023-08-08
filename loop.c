@@ -24,13 +24,21 @@ void loop(char **env)
 		line = read_line(STDIN_FILENO, &eof);
 		args = split_line(line);
 		status = parse(args, env);
-		
+
 		free(line);
 		free(args);
 		prev_status = status;
 
-		if (status == -1) {
-			exit(prev_status);
+		if (strcmp(args[0], "exit") == 0)
+		{
+			if (args[1] != NULL)
+			{
+				exit(atoi(args[1]));
+			}
+			else
+			{
+				exit(prev_status);
+			}
 		}
 	} while (eof != EOF);
 }
