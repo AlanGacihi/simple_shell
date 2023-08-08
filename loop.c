@@ -30,7 +30,7 @@ void loop(char **env)
 		if (status) {
 			exit(status);
 		}
-	} while (eof != EOF && !status);
+	} while (eof != EOF);
 }
 
 /**
