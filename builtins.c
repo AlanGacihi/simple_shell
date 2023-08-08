@@ -29,6 +29,7 @@ int cd(char **args)
  * my_exit - Exit the program.
  * @args: An array of arguments.
  *
+ * Return: Always one.
  */
 int my_exit(char **args)
 {
@@ -37,10 +38,6 @@ int my_exit(char **args)
 	if (args[1] != NULL)
 	{
 		status = atoi(args[1]);
-		if (status == -1)
-		{
-			return;
-		}
 	}
 	else
 	{
@@ -54,6 +51,7 @@ int my_exit(char **args)
 /**
  * help - Know what to do.
  * 
+ * Return: Always 1.
  */
 int help()
 {
@@ -67,9 +65,9 @@ int help()
  * env - Print the current environment.
  * @env: Program environment.
  *
- * Return: Always 1 to continue the shell loop.
+ * Return: Always 1.
  */
-int env(char **env) {
+int print_env(char **env) {
 	int i;
 
 	for (i = 0; env[i] != NULL; i++)

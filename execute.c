@@ -35,7 +35,7 @@ int parse(char **args, char **env)
 	}
 	else if (strcmp(args[0], "env") == 0)
 	{
-		return (env(env));
+		return (print_env(env));
 	}
 
 	return (execute(args, env));
