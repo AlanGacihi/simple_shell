@@ -14,6 +14,7 @@ void loop(char **env)
 	char eof;
 	char **args;
 	int status;
+	int prev_status;
 
 	eof = 'a';
 
@@ -26,9 +27,10 @@ void loop(char **env)
 		
 		free(line);
 		free(args);
+		prev_status = status;
 
-		if (status) {
-			exit(status);
+		if (status == -1) {
+			exit(prev_status);
 		}
 	} while (eof != EOF);
 }

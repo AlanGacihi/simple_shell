@@ -1,6 +1,8 @@
 #ifndef SHELL_H
 #define SHELL_H
 
+int EXIT_FLAG_ARGS;
+int EXIT_FLAG;
 void loop(char **);
 char *read_line(int, char *);
 char **split_line(char *);

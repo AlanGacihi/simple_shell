@@ -41,7 +41,7 @@ int my_exit(char **args)
 	}
 	else
 	{
-		status = 1;
+		status = -1;
 	}
 
 	return (status);
