@@ -24,3 +24,27 @@ int cd(char **args)
 	}
 	return (1);
 }
+
+/**
+ * my_exit - Exit the program.
+ * @args: An array of arguments.
+ *
+ */
+void my_exit(char **args)
+{
+	int status;
+
+	if (args[1] != NULL)
+	{
+		status = atoi(args[1]);
+		if (status == -1)
+		{
+			return;
+		}
+	}
+	else
+	{
+		status = 0;
+	}
+	exit(status);
+}

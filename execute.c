@@ -23,7 +23,7 @@ int parse(char **args, char **env)
 	}
 	else if (strcmp(args[0], "exit") == 0)
 	{
-		return (0);
+		my_exit(args);
 	}
 	else if (strcmp(args[0], "help") == 0)
 	{
