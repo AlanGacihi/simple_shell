@@ -29,7 +29,7 @@ void loop(char **env)
 
 		if (status) {
 			if (status == 1) {
-				exit(EXIT_SUCCESS);
+				exit(EXIT_FAILURE);
 			}
 			else {
 				exit(status);
