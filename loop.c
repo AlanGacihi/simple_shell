@@ -23,10 +23,14 @@ void loop(char **env)
 		line = read_line(STDIN_FILENO, &eof);
 		args = split_line(line);
 		status = parse(args, env);
-
+		
 		free(line);
 		free(args);
-	} while (eof != EOF && status);
+
+		if (status) {
+			exit(status);
+		}
+	} while (eof != EOF);
 }
 
 /**

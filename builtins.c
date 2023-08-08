@@ -22,7 +22,7 @@ int cd(char **args)
 			perror("Error");
 		}
 	}
-	return (1);
+	return (0);
 }
 
 /**
@@ -41,11 +41,10 @@ int my_exit(char **args)
 	}
 	else
 	{
-		status = 1;
+		status = EXIT_SUCCESS;
 	}
-	_exit(status);
 
-	return (1);
+	return (status);
 }
 
 /**
@@ -58,7 +57,7 @@ int help(void)
 	printf("SIMPLE SHELL\n");
 	printf("Type program names and arguments, and hit enter.\n");
 
-	return (1);
+	return (0);
 }
 
 /**
@@ -76,5 +75,5 @@ int print_env(char **env)
 		printf("%s\n", env[i]);
 	}
 
-	return (1);
+	return (0);
 }
