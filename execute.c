@@ -19,7 +19,7 @@ int parse(char **args, char **env)
 {
 	if (args[0] == NULL)
 	{
-		return (1);
+		return (0);
 	}
 	else if (strcmp(args[0], "exit") == 0)
 	{
@@ -56,10 +56,10 @@ int execute(char **args, char **env)
 
 	path = malloc(sizeof(char) * MAX_PATH_LEN);
 
-	if (!which(args[0], path))
+	if (which(args[0], path))
 	{
 		fprintf(stderr, "simple_shell: %s: command not found.\n", args[0]);
-		return (1);
+		return (0);
 	}
 
 	pid = fork();
@@ -100,7 +100,7 @@ int which(const char *cmd, char *path)
 	if (access(cmd, X_OK) == 0)
 	{
 		strcpy(path, cmd);
-		return (1);
+		return (0);
 	}
 
 	path_env = getenv("PATH");
@@ -114,7 +114,7 @@ int which(const char *cmd, char *path)
 	if (!path_copy)
 	{
 		fprintf(stderr, "Memory allocation error.\n");
-		return (0);
+		return (1);
 	}
 
 	dir = strtok(path_copy, ":");
@@ -124,11 +124,11 @@ int which(const char *cmd, char *path)
 		if (access(path, X_OK) == 0)
 		{
 			free(path_copy);
-			return (1);
+			return (0);
 		}
 		dir = strtok(NULL, ":");
 	}
 
 	free(path_copy);
-	return (0);
+	return (1);
 }
